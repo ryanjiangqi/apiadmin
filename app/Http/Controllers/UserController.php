@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Models\Users;
 
-
+/******************/
 class UserController extends Controller
 {
     public function detail(Request $request)
