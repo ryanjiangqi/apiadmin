@@ -6,14 +6,13 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Models\Users;
 
-/******************/
 class UserController extends Controller
 {
     public function detail(Request $request)
     {
         $selectWord = $request->input('select_word');
         $list = Users::where('name', 'like', '%' . $selectWord . '%')->orWhere('email', 'like', '%' . $selectWord . '%')->paginate(15);
-        return response()->json($list);
+        return success($list);
     }
 
     public function update(Request $request)
@@ -23,7 +22,7 @@ class UserController extends Controller
         $name = $request->input('name');
         $email = $request->input('email');
         Users::where(['id' => $id])->update(['name' => $name, 'email' => $email]);
-        return response()->json(['code' => 1, 'message' => 'success', 'data' => []]);
+        return success();
     }
 
     public function deleted(Request $request)
@@ -31,7 +30,7 @@ class UserController extends Controller
         $request->validate(['id' => 'required']);
         $id = $request->input('id');
         Users::where(['id' => $id])->update(['deleted_at' => date('Y-m-d H:i:s')]);
-        return response()->json(['code' => 1, 'message' => 'success', 'data' => []]);
+        return success();
     }
 
     public function addSave(Request $request)
@@ -45,6 +44,7 @@ class UserController extends Controller
         $user->password = 123456;
         $user->created_at = date('Y-m-d H:i:s');
         $user->save();
-        return response()->json(['code' => 1, 'message' => 'success', 'data' => []]);
+        return success();
     }
+
 }

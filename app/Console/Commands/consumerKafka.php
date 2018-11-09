@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class consumerKafka extends Command
 {
@@ -37,19 +38,9 @@ class consumerKafka extends Command
      */
     public function handle()
     {
-        $config = \Kafka\ConsumerConfig::getInstance();
-        $config->setMetadataRefreshIntervalMs(10000);
-        $config->setMetadataBrokerList('127.0.0.1:9092');
-        $config->setGroupId('test');
-        $config->setBrokerVersion('0.10.2.1');
-        $config->setTopics(array('test'));
-        $config->setOffsetReset('earliest');
-        $consumer = new \Kafka\Consumer();
-        $consumer->start(function ($topic, $part, $message) {
-            var_dump($topic);
-            var_dump($part);
-            var_dump($message);
-        });
+        for ($i = 0; $i < 10000; $i++) {
+            Log::info('日志1111');
+        }
     }
 
 

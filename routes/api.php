@@ -14,10 +14,16 @@ use App\Http\Middleware\OAuthLogin;
 |
 */
 Route::put('login', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken')->middleware(OAuthLogin::class);
-Route::post('detail', 'UserController@detail')->middleware('auth:api');
-Route::post('update', 'UserController@update')->middleware('auth:api');
-Route::post('deleted', 'UserController@deleted')->middleware('auth:api');
-Route::post('add/save', 'UserController@addSave')->middleware('auth:api');
-Route::get('test', 'Client\ClientController@test');
+//管理员路由
+Route::post('user/detail', 'UserController@detail')->middleware('auth:api');
+Route::post('user/update', 'UserController@update')->middleware('auth:api');
+Route::post('user/deleted', 'UserController@deleted')->middleware('auth:api');
+Route::post('user/add/save', 'UserController@addSave')->middleware('auth:api');
+//文章路由
+Route::post('article/add/save', 'ArticleController@addSave')->middleware('auth:api');
+Route::post('article/detail', 'ArticleController@detail')->middleware('auth:api');
+Route::post('article/deleted', 'ArticleController@deleted')->middleware('auth:api');
+Route::post('article/update', 'ArticleController@update')->middleware('auth:api');
+
 
 

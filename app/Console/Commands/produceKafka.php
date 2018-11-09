@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
+use Illuminate\Support\Facades\Log;
 class produceKafka extends Command
 {
     /**
@@ -37,27 +37,8 @@ class produceKafka extends Command
      */
     public function handle()
     {
-        $config = \Kafka\ProducerConfig::getInstance();
-        $config->setMetadataRefreshIntervalMs(10000);
-        $config->setMetadataBrokerList('127.0.0.1:9092');
-        $config->setBrokerVersion('0.10.2.1');
-        $config->setRequiredAck(1);
-        $config->setIsAsyn(false);
-        $config->setProduceInterval(500);
-        $producer = new \Kafka\Producer(function () {
-            return [
-                [
-                    'topic' =>'test',
-                    'value' => '3333'
-                ],
-            ];
-        });
-        $producer->success(function ($result) {
-            echo  "success";
-        });
-        $producer->error(function ($errorCode) {
-            echo $errorCode;
-        });
-        $producer->send(true);
+        for ($i = 0; $i < 10000; $i++) {
+            Log::info('日志22222');
+        }
     }
 }
