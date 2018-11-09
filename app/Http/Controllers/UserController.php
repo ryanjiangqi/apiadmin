@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Validator;
 use App\Models\Users;
 
@@ -10,6 +11,7 @@ class UserController extends Controller
 {
     public function detail(Request $request)
     {
+        Log::info('test');
         $selectWord = $request->input('select_word');
         $list = Users::where('name', 'like', '%' . $selectWord . '%')->orWhere('email', 'like', '%' . $selectWord . '%')->paginate(15);
         return success($list);
