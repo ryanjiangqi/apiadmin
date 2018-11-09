@@ -11,7 +11,7 @@ class ArticleController extends Controller
     public function detail(Request $request)
     {
         $selectWord = $request->input('select_word');
-        $list = Article::where('name', 'like', '%' . $selectWord . '%')->orWhere('keyword', 'like', '%' . $selectWord . '%')->paginate(15);
+        $list = Article::where('name', 'like', '%' . $selectWord . '%')->paginate(15);
         return success($list);
     }
 
