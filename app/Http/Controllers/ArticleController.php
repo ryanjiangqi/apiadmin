@@ -3,15 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\ArticleImages;
+use App\Models\FileResource;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
     public function detail(Request $request)
     {
         $selectWord = $request->input('select_word');
-        $list = Article::where('name', 'like', '%' . $selectWord . '%')->paginate(15);
+        $list = Article::where('name', 'like', '%' . $selectWord . '%')->with('articleImages')->OrderBy('id', 'DESC')->paginate(15);
+
         return success($list);
     }
 
@@ -37,6 +42,7 @@ class ArticleController extends Controller
         $type = $request->input('type');
         $keyword = $request->input('keyword');
         $content = $request->input('content');
+        $image = $request->input('image');
         $article = Article::find($id);
         $article->name = $name;
         $article->author = $author;
@@ -45,6 +51,16 @@ class ArticleController extends Controller
         $article->keyword = $keyword;
         $article->content = $content;
         $article->save();
+        ArticleImages::where(['article_id' => $id])->delete();
+        if (!empty($image)) {
+            foreach ($image as $key => $item) {
+                $data[$key]['article_id'] = $article->id;
+                $data[$key]['image'] = $item;
+                $data[$key]['created_at'] = date('Y-m-d H:i:s');
+                $data[$key]['updated_at'] = date('Y-m-d H:i:s');
+            }
+            ArticleImages::insert($data);
+        }
         return success();
     }
 
@@ -53,6 +69,7 @@ class ArticleController extends Controller
         $request->validate(['id' => 'required']);
         $id = $request->input('id');
         Article::where(['id' => $id])->update(['deleted_at' => date('Y-m-d H:i:s')]);
+        ArticleImages::where(['article_id' => $id])->delete();
         return success();
     }
 
@@ -65,6 +82,7 @@ class ArticleController extends Controller
         $type = $request->input('type');
         $keyword = $request->input('keyword');
         $content = $request->input('content');
+        $image = $request->input('image');
         $article = new Article();
         $article->name = $name;
         $article->author = $author;
@@ -75,7 +93,29 @@ class ArticleController extends Controller
         $article->created_at = date('Y-m-d H:i:s');
         $article->updated_at = date('Y-m-d H:i:s');
         $article->save();
+        if (!empty($image)) {
+            foreach ($image as $key => $item) {
+                $data[$key]['article_id'] = $article->id;
+                $data[$key]['image'] = $item;
+                $data[$key]['created_at'] = date('Y-m-d H:i:s');
+                $data[$key]['updated_at'] = date('Y-m-d H:i:s');
+            }
+            ArticleImages::insert($data);
+        }
         return success();
+    }
+
+    public function uploadImage(Request $request, FileResource $fileResource)
+    {
+        $request->validate(['file' => 'required']);
+        $image = $request->file('file');
+        $path = Storage::putFile('public', $image);
+        $pathArray = explode('/', $path);
+        $fileResource->old_name = $image->getClientOriginalName();
+        $fileResource->new_name = $path;
+        $fileResource->created_at = date('Y-m-d H:i:s');
+        $fileResource->save();
+        return success($pathArray[1]);
     }
 
 }

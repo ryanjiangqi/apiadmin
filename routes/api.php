@@ -26,4 +26,5 @@ Route::post('article/deleted', 'ArticleController@deleted')->middleware('auth:ap
 Route::post('article/update', 'ArticleController@update')->middleware('auth:api');
 
 
+Route::post('upload/image', 'ArticleController@uploadImage');//->middleware('auth:api')
 

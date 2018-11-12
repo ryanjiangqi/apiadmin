@@ -12,5 +12,8 @@ class Article extends Model
 
     public $table = 'article';
 
-
+    public function articleImages()
+    {
+        return $this->hasMany('App\Models\ArticleImages');
+    }
 }
