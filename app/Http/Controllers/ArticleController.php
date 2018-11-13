@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\About;
 use App\Models\Article;
 use App\Models\ArticleImages;
 use App\Models\FileResource;
@@ -129,6 +130,21 @@ class ArticleController extends Controller
         $fileResource->created_at = date('Y-m-d H:i:s');
         $fileResource->save();
         return success(config('app.url') . '/storage/' . $pathArray[1]);
+    }
+
+    public function aboutUs()
+    {
+        $data = About::first();
+        return success($data);
+    }
+
+    public function editAbout(Request $request)
+    {
+        $content = $request->input('content');
+        $data = About::first();
+        $data->content = $content;
+        $data->save();
+        return success();
     }
 
 

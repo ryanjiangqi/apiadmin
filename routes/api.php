@@ -25,6 +25,8 @@ Route::post('article/detail', 'ArticleController@detail')->middleware('auth:api'
 Route::post('article/deleted', 'ArticleController@deleted')->middleware('auth:api');
 Route::post('article/update', 'ArticleController@update')->middleware('auth:api');
 
+Route::post('about/detail', 'ArticleController@aboutUs')->middleware('auth:api');
+Route::post('about/update', 'ArticleController@editAbout')->middleware('auth:api');
 
 Route::post('upload/image', 'ArticleController@uploadImage');//->middleware('auth:api')
 Route::post('upload/editimage', 'ArticleController@uploadImageEditor');//->middleware('auth:api')
