@@ -27,4 +27,5 @@ Route::post('article/update', 'ArticleController@update')->middleware('auth:api'
 
 
 Route::post('upload/image', 'ArticleController@uploadImage');//->middleware('auth:api')
+Route::post('upload/editimage', 'ArticleController@uploadImageEditor');//->middleware('auth:api')
 

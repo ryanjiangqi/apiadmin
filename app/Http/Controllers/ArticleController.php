@@ -118,4 +118,18 @@ class ArticleController extends Controller
         return success($pathArray[1]);
     }
 
+    public function uploadImageEditor(Request $request, FileResource $fileResource)
+    {
+        $request->validate(['file' => 'required']);
+        $image = $request->file('file');
+        $path = Storage::putFile('public', $image);
+        $pathArray = explode('/', $path);
+        $fileResource->old_name = $image->getClientOriginalName();
+        $fileResource->new_name = $path;
+        $fileResource->created_at = date('Y-m-d H:i:s');
+        $fileResource->save();
+        return success(config('app.url') . '/storage/' . $pathArray[1]);
+    }
+
+
 }
