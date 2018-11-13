@@ -17,8 +17,20 @@ class ArticleController extends Controller
     {
         $selectWord = $request->input('select_word');
         $list = Article::where('name', 'like', '%' . $selectWord . '%')->with('articleImages')->OrderBy('id', 'DESC')->paginate(15);
-
         return success($list);
+    }
+
+    public function webDetail()
+    {
+        $list = Article::with('articleImages')->OrderBy('id', 'DESC')->get();
+        return success($list);
+    }
+
+    public function productDetail(Request $request)
+    {
+        $id = $request->input('id');
+        $detail = Article::where(['id' => $id])->with('articleImages')->first();
+        return success($detail);
     }
 
     private function validateArticle($request)
