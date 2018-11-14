@@ -22,7 +22,7 @@ class ArticleController extends Controller
 
     public function webDetail()
     {
-        $list = Article::with('articleImages')->OrderBy('id', 'DESC')->get();
+        $list = Article::where(['status'=>1])->with('articleImages')->OrderBy('id', 'DESC')->get();
         return success($list);
     }
 
