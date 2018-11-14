@@ -27,6 +27,8 @@ Route::post('about/detail', 'ArticleController@aboutUs')->middleware('auth:api')
 Route::post('about/update', 'ArticleController@editAbout')->middleware('auth:api');
 //前台路由
 Route::post('article/webdetail', 'ArticleController@webDetail');
+Route::post('article/indexdetail', 'ArticleController@webIndexDetail');
+Route::post('article/bigdetail', 'ArticleController@bigIndexDetail');
 Route::post('article/productdetail', 'ArticleController@productDetail');
 Route::post('about/webdetail', 'ArticleController@aboutUs');
 Route::post('upload/image', 'ArticleController@uploadImage');//->middleware('auth:api')

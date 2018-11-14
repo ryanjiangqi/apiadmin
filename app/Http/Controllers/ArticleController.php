@@ -26,6 +26,17 @@ class ArticleController extends Controller
         return success($list);
     }
 
+    public function webIndexDetail()
+    {
+        $list = Article::where(['status'=>1])->with('articleImages')->OrderBy('id', 'DESC')->limit(4)->get();
+        return success($list);
+    }
+    public function bigIndexDetail()
+    {
+        $list = Article::where(['type'=>1,'status'=>1])->with('articleImages')->OrderBy('id', 'DESC')->limit(4)->get();
+        return success($list);
+    }
+
     public function productDetail(Request $request)
     {
         $id = $request->input('id');
