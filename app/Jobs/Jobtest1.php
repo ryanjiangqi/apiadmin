@@ -7,6 +7,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Models\Article;
 
 class Jobtest1 implements ShouldQueue
 {
@@ -28,12 +29,15 @@ class Jobtest1 implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(Article $article)
     {
-        //
-        echo 'test1';
+        $article->name = 'test';
+        $article->created_at = date('Y-m-d H:i:s');
+        $article->save();
+
 
     }
+
     public function failed(Exception $exception)
     {
         // 给用户发送失败的通知等等...

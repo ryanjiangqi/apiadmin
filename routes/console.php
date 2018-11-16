@@ -19,7 +19,7 @@ Artisan::command('inspire', function () {
 
 
 Artisan::command('queue_test1', function () {
-    dispatch(new \App\Jobs\Jobtest1())->delay(now()->addSecond(10));
+    dispatch(new \App\Jobs\Jobtest1());
 })->describe('Display an inspiring quote');
 
 Artisan::command('queue_test2', function () {
